@@ -57,7 +57,7 @@ io.on("connect", (socket) => {
   });
 
   socket.on("sound", () => {
-    fs.readFile(filePath, (err, buf) => {
+    fs.readFile("./buzz.mp3", (err, buf) => {
       socket.broadcast.emit("sound", buf);
     });
   });

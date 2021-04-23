@@ -9,7 +9,7 @@ const fs = require("fs");
 const path = require("path");
 const ENDPOINT = "https://react-buzz-chat.herokuapp.com/";
 
-// const filePath = path.join(__dirname, "buzz.mp3");
+const filePath = path.join(__dirname, "buzz.mp3");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
@@ -60,11 +60,15 @@ io.on("connect", (socket) => {
   socket.on("sound", () => {
     const user = getUser(socket.id);
     console.log("sound on server");
-    fs.readFile(filePath, (err, buf) => {
-      console.log("file");
-      socket.broadcast.emit("sound", sound.play(`${ENDPOINT}buzz.mp3`));
-      // socket.emit("sound", { audio: true, buffer: buf.toString("base64") });
-    });
+    try {
+      fs.readFile(filePath, (err, buf) => {
+        console.log("file");
+        socket.broadcast.emit("sound", sound.play("buzz.mp3"));
+        // socket.emit("sound", { audio: true, buffer: buf.toString("base64") });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
   socket.on("disconnect", () => {

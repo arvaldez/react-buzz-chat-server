@@ -58,9 +58,11 @@ io.on("connect", (socket) => {
 
   socket.on("sound", () => {
     const user = getUser(socket.id);
+    console.log("sound on server");
     fs.readFile(filePath, (err, buf) => {
-      //socket.broadcast.emit("sound", sound.play(filePath));
-      socket.broadcast.to(user.room).emit("sound", sound.play(filePath));
+      console.log("file");
+      socket.broadcast.emit("sound", sound.play(filePath));
+      // socket.emit("sound", { audio: true, buffer: buf.toString("base64") });
     });
   });
 
